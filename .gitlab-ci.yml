@@ -1,0 +1,21 @@
+stages:
+  - build
+  - test
+
+# cache using branch name
+# https://gitlab.com/help/ci/caching/index.md
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .npm
+    - cache/Cypress
+    - node_modules
+
+install:
+  image: cypress/base:10
+  stage: build
+
+  script:
+    - npm ci
+    - $(npm bin)/cypress verify
+
